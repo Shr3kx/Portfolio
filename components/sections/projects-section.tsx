@@ -20,12 +20,18 @@ export function ProjectsSection() {
       spotlightColor: isDark
         ? "rgba(236, 72, 153, 0.15)"
         : "rgba(236, 72, 153, 0.1)",
-      tags: [
+      techTags: [
+        { name: "NextJs", icon: "nextjs" },
+        { name: "Node.js", icon: "nodejs" },
+        { name: "MongoDB", icon: "mongodb" },
+        { name: "Express", icon: "expressjs" },
+        { name: "Redux Toolkit", icon: "redux" },
+        { name: "Framer Motion", icon: "framer" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+      ],
+      textTags: [
         "MERN Stack",
         "Clerk Authentication",
-        "Redux Toolkit",
-        "Framer Motion",
-        "TailwindCSS",
         "Server-Sent Events (SSE)",
       ],
       achievements: [
@@ -35,7 +41,35 @@ export function ProjectsSection() {
         "Responsive UI with dark/light theme",
         "Built as a passion project to master modern MERN stack practices",
       ],
-      demoUrl: "https://social-ping.vercel.app/", 
+      demoUrl: "https://social-ping.vercel.app/",
+    },
+    {
+      title: "🚀 Modern Analytics Dashboard Theme",
+      description:
+        "A comprehensive, interactive analytics dashboard built with Next.js 14, React, TypeScript, and Tailwind CSS. Features real-time data visualization, interactive charts, global mapping, and a beautiful dark/light theme system.",
+      icon: <BarChart3 className="h-6 w-6" />,
+      color: "from-cyan-500 to-sky-600",
+      spotlightColor: isDark
+        ? "rgba(6, 182, 212, 0.15)"
+        : "rgba(6, 182, 212, 0.1)",
+      techTags: [
+        { name: "Next.js", icon: "nextjs" },
+        { name: "TypeScript", icon: "typescript" },
+        { name: "Shadcn", icon: "shadcnui" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+        { name: "Framer Motion", icon: "framer" },
+        { name: "V0", icon: "v0" },
+        { name: "Claude", icon: "claude" },
+      ],
+      textTags: ["Recharts"],
+      achievements: [
+        "Interactive charts and visualizations",
+        "Global mapping with region-based insights",
+        "Dynamic report generation (PDF, CSV, JSON)",
+        "Dark/Light theme system with smooth transitions",
+        "Real-time notifications & collapsible sidebar navigation",
+      ],
+      demoUrl: "https://analytics-dashboard-theme.vercel.app/overview",
     },
     {
       title: "KYC Verification System",
@@ -46,7 +80,11 @@ export function ProjectsSection() {
       spotlightColor: isDark
         ? "rgba(16, 185, 129, 0.15)"
         : "rgba(16, 185, 129, 0.1)",
-      tags: ["ReactJS", "Context API + useReducer", "CryptoJS"],
+      techTags: [
+        { name: "React", icon: "react" },
+        { name: "bootstrap", icon: "bootstrap5" },
+      ],
+      textTags: ["Context API + useReducer", "CryptoJS"],
       achievements: [
         "50% reduction in verification time",
         "Real-time status updates",
@@ -64,9 +102,13 @@ export function ProjectsSection() {
       spotlightColor: isDark
         ? "rgba(139, 92, 246, 0.15)"
         : "rgba(124, 58, 237, 0.1)",
-      tags: [
+      techTags: [
+        { name: "React", icon: "react" },
+        { name: "bootstrap", icon: "bootstrap5" },
+        { name: "Framer Motion", icon: "framer" },
+      ],
+      textTags: [
         "API Management",
-        "Framer Motion",
         "Custom Doc UI",
         "Role-Based Access Control (RBAC)",
       ],
@@ -87,7 +129,11 @@ export function ProjectsSection() {
       spotlightColor: isDark
         ? "rgba(59, 130, 246, 0.15)"
         : "rgba(59, 130, 246, 0.1)",
-      tags: ["Custom Context-based authentication", "AG-Grid", "CryptoJs"],
+      techTags: [
+        { name: "React", icon: "react" },
+        { name: "bootstrap", icon: "bootstrap5" },
+      ],
+      textTags: ["Custom Context-based authentication", "AG-Grid", "CryptoJs"],
       achievements: [
         "35% reduction in scheduling conflicts",
         "Dual-sector functionality",
@@ -104,7 +150,11 @@ export function ProjectsSection() {
       spotlightColor: isDark
         ? "rgba(245, 158, 11, 0.15)"
         : "rgba(217, 119, 6, 0.1)",
-      tags: ["ERP Integration", "Analytics", "xlsx", "Axios"],
+      techTags: [
+        { name: "React", icon: "react" },
+        { name: "bootstrap", icon: "bootstrap5" },
+      ],
+      textTags: ["ERP Integration", "xlsx", "CryptoJS", "Axios"],
       achievements: [
         "Used by 2 enterprise clients",
         "Automated vendor reporting",
@@ -215,7 +265,8 @@ export function ProjectsSection() {
                       icon={project.icon}
                       color={project.color}
                       spotlightColor={project.spotlightColor}
-                      tags={project.tags}
+                      techTags={project.techTags}
+                      textTags={project.textTags}
                       achievements={project.achievements}
                       demoUrl={project.demoUrl}
                       isCompanyProject={project.isCompanyProject}

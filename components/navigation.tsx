@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Menu, X } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
+import { useScroll } from "@/hooks/use-scroll";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const { theme } = useTheme();
+  const { isScrolled } = useScroll();
 
   const navItems = [
     { id: "hero", label: "Home" },
@@ -22,8 +24,10 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navItems.map((item) => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
+      const sections = navItems.map(item => document.getElementById(item.id));
+      const navbar = document.querySelector("nav");
+      const navbarHeight = navbar ? navbar.offsetHeight : 80;
+      const scrollPosition = window.scrollY + navbarHeight + 50;
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -35,15 +39,36 @@ export function Navigation() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    // Close mobile menu first
     setIsOpen(false);
+
+    // Add delay for mobile menu animation
+    setTimeout(
+      () => {
+        const element = document.getElementById(sectionId);
+
+        if (element) {
+          // Get navbar height dynamically
+          const navbar = document.querySelector("nav");
+          const navbarHeight = navbar ? navbar.offsetHeight : 80;
+
+          // Get element position
+          const elementTop = element.offsetTop;
+
+          // Scroll with offset to account for fixed navbar
+          window.scrollTo({
+            top: Math.max(0, elementTop - navbarHeight - 20),
+            behavior: "smooth",
+          });
+        }
+      },
+      isOpen ? 300 : 0
+    ); // Delay only if mobile menu is open
   };
 
   const containerVariants = {
@@ -109,10 +134,14 @@ export function Navigation() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-300 ${
-        theme === "dark"
-          ? "bg-gray-950/90 border-gray-800"
-          : "bg-white/90 border-gray-200"
+      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md transition-colors duration-300 ${
+        isScrolled
+          ? theme === "dark"
+            ? "bg-gray-950/90 border-b border-gray-800"
+            : "bg-white/90 border-b border-gray-200"
+          : theme === "dark"
+          ? "bg-gray-950/90"
+          : "bg-white/90"
       }`}
     >
       <div className="container mx-auto px-4 py-4">

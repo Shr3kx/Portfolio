@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { X, ExternalLink, Lock } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { CardSpotlight } from "./card-spotlight";
+import StackIcon from "tech-stack-icons";
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -15,7 +16,8 @@ interface ProjectModalProps {
   icon: React.ReactNode;
   color: string;
   spotlightColor: string;
-  tags: string[];
+  techTags: Array<{ name: string; icon: string }>;
+  textTags: string[];
   achievements: string[];
   demoUrl?: string;
   isCompanyProject?: boolean;
@@ -25,9 +27,10 @@ interface ProjectModalProps {
 if (typeof window !== "undefined") {
   try {
     // Try different selectors for Next.js root element
-    const appElement = document.querySelector("#__next") as HTMLElement || 
-                      document.querySelector("body") as HTMLElement || 
-                      document.documentElement;
+    const appElement =
+      (document.querySelector("#__next") as HTMLElement) ||
+      (document.querySelector("body") as HTMLElement) ||
+      document.documentElement;
     if (appElement) {
       Modal.setAppElement(appElement as HTMLElement);
     }
@@ -45,13 +48,15 @@ export function ProjectModal({
   icon,
   color,
   spotlightColor,
-  tags,
+  techTags,
+  textTags,
   achievements,
   demoUrl,
   isCompanyProject = false,
 }: ProjectModalProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
 
   const modalStyles = {
     overlay: {
@@ -165,19 +170,85 @@ export function ProjectModal({
             >
               Technologies Used
             </h4>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag, i) => (
-                <span
+            <div className="flex flex-wrap gap-3">
+              {techTags.map((tag, i) => (
+                <motion.div
                   key={i}
-                  className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                    isDark
-                      ? "bg-slate-800 text-slate-300 hover:bg-slate-700"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                  className="relative group flex justify-center"
+                  onMouseEnter={() => setHoveredTech(tag.name)}
+                  onMouseLeave={() => setHoveredTech(null)}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {tag}
-                </span>
+                  <div
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                      isDark
+                        ? "bg-gray-800/50 hover:bg-gray-700/70 border border-gray-700/50 hover:border-purple-500/50"
+                        : "bg-white/70 hover:bg-white/90 border border-gray-200/50 hover:border-purple-400/50"
+                    } backdrop-blur-sm hover:scale-110 hover:shadow-lg ${
+                      isDark
+                        ? "hover:shadow-purple-500/25"
+                        : "hover:shadow-purple-400/25"
+                    } hover:z-10 relative ${
+                      hoveredTech && hoveredTech !== tag.name
+                        ? "blur-[2px] opacity-50"
+                        : ""
+                    }`}
+                  >
+                    <div className="w-8 h-8 sm:w-9 sm:h-9">
+                      <StackIcon
+                        name={tag.icon}
+                        variant={isDark ? "dark" : "light"}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Tooltip */}
+                  <div
+                    className={`absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 pointer-events-none z-20 ${
+                      hoveredTech === tag.name
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-2"
+                    } ${
+                      isDark
+                        ? "bg-gray-800 text-gray-200 border border-gray-700"
+                        : "bg-white text-gray-800 border border-gray-200 shadow-lg"
+                    }`}
+                  >
+                    {tag.name}
+                    {/* Tooltip arrow */}
+                    <div
+                      className={`absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent ${
+                        isDark ? "border-t-gray-800" : "border-t-white"
+                      }`}
+                    />
+                  </div>
+                </motion.div>
               ))}
+
+              {/* Text Tags - Pill Style */}
+              {textTags &&
+                textTags.length > 0 &&
+                textTags.map((tag, i) => (
+                  <div
+                    key={`text-${i}`}
+                    className={`px-3 py-2 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer opacity-60 ${
+                      isDark
+                        ? "bg-gray-800/40 border border-gray-700/40"
+                        : "bg-white/40 border border-gray-200/40"
+                    } backdrop-blur-sm ${
+                      hoveredTech ? "blur-[1px] opacity-60" : ""
+                    }`}
+                  >
+                    <span
+                      className={`text-sm font-medium whitespace-nowrap ${
+                        isDark ? "text-slate-400" : "text-gray-500"
+                      }`}
+                    >
+                      {tag}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -235,7 +306,8 @@ export function ProjectCard({
   icon,
   color,
   spotlightColor,
-  tags,
+  techTags,
+  textTags,
   achievements,
   demoUrl,
   isCompanyProject,
@@ -297,7 +369,8 @@ export function ProjectCard({
         icon={icon}
         color={color}
         spotlightColor={spotlightColor}
-        tags={tags}
+        techTags={techTags}
+        textTags={textTags}
         achievements={achievements}
         demoUrl={demoUrl}
         isCompanyProject={isCompanyProject}

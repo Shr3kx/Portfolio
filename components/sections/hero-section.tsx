@@ -260,7 +260,7 @@ export function HeroSection() {
               {[
                 {
                   icon: Github,
-                  href: "https://www.github.com/ShreyKuvera05",
+                  href: "https://www.github.com/Shr3kx",
                   color: "violet",
                 },
                 {

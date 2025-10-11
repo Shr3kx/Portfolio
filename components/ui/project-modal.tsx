@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import { X, ExternalLink, Lock } from "lucide-react";
+import { X, ExternalLink, Lock, Wrench } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { CardSpotlight } from "./card-spotlight";
 import StackIcon from "tech-stack-icons";
@@ -21,6 +21,7 @@ interface ProjectModalProps {
   achievements: string[];
   demoUrl?: string;
   isCompanyProject?: boolean;
+  isInDevelopment?: boolean;
 }
 
 // Set app element for accessibility
@@ -53,6 +54,7 @@ export function ProjectModal({
   achievements,
   demoUrl,
   isCompanyProject = false,
+  isInDevelopment = false,
 }: ProjectModalProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -253,7 +255,23 @@ export function ProjectModal({
           </div>
 
           {/* Demo Button Section */}
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
+            {/* In Development Badge */}
+            {isInDevelopment && (
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                <Wrench className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <div>
+                  <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                    🚧 In Active Development
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400">
+                    Currently building and refining features
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Demo Link or Status */}
             {isCompanyProject ? (
               <div className="flex items-center gap-3 p-4 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
                 <Lock className="h-5 w-5 text-amber-600 dark:text-amber-400" />
@@ -280,7 +298,7 @@ export function ProjectModal({
                 <ExternalLink className="h-4 w-4" />
                 View Live Demo
               </a>
-            ) : (
+            ) : !isInDevelopment ? (
               <div className="flex items-center gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                 <div className="h-5 w-5 rounded-full bg-gray-400 dark:bg-gray-600" />
                 <div>
@@ -292,7 +310,7 @@ export function ProjectModal({
                   </p>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </motion.div>
@@ -311,6 +329,7 @@ export function ProjectCard({
   achievements,
   demoUrl,
   isCompanyProject,
+  isInDevelopment,
 }: Omit<ProjectModalProps, "isOpen" | "onClose">) {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { theme } = useTheme();
@@ -374,6 +393,7 @@ export function ProjectCard({
         achievements={achievements}
         demoUrl={demoUrl}
         isCompanyProject={isCompanyProject}
+        isInDevelopment={isInDevelopment}
       />
     </>
   );

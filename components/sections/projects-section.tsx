@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Database, Calendar, BarChart3, Zap } from "lucide-react";
+import { Shield, Database, Calendar, BarChart3, Zap, Package, Map } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { ProjectCard } from "@/components/ui/project-modal";
 import { FocusCards, FocusCard } from "@/components/ui/focus-cards";
@@ -11,6 +11,70 @@ export function ProjectsSection() {
   const isDark = theme === "dark";
 
   const projects = [
+    {
+      title: "SesameUI 🎨",
+      description:
+        "A modern, accessible component library built with React and TypeScript. Provides beautifully designed, customizable UI components with a focus on developer experience and accessibility.",
+      icon: <Package className="h-6 w-6" />,
+      color: "from-purple-500 to-pink-600",
+      spotlightColor: isDark
+        ? "rgba(168, 85, 247, 0.15)"
+        : "rgba(168, 85, 247, 0.1)",
+      techTags: [
+        { name: "React", icon: "react" },
+        { name: "TypeScript", icon: "typescript" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+        { name: "Framer Motion", icon: "framer" },
+      ],
+      textTags: [
+        "Component Library",
+        "MDX Documentation",
+        "Accessible Design",
+        "Developer-Friendly",
+      ],
+      achievements: [
+        "Fully typed components with TypeScript",
+        "WCAG 2.1 accessibility standards",
+        "Customizable theming system",
+        "MDX-powered comprehensive documentation",
+        "Tree-shakeable for optimal bundle size",
+      ],
+      demoUrl: "https://sesame-ui.netlify.app/",
+      isInDevelopment: true,
+    },
+    {
+      title: "ProjectMap.io 🗺️",
+      description:
+        "A beautiful, lightweight roadmap tool for indie developers, students, and small teams. Transform messy project plans into clean, shareable visual roadmaps without the complexity of enterprise tools.",
+      icon: <Map className="h-6 w-6" />,
+      color: "from-blue-500 to-cyan-600",
+      spotlightColor: isDark
+        ? "rgba(59, 130, 246, 0.15)"
+        : "rgba(59, 130, 246, 0.1)",
+      techTags: [
+        { name: "NextJs", icon: "nextjs" },
+        { name: "TypeScript", icon: "typescript" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+        { name: "Framer Motion", icon: "framer" },
+      ],
+      textTags: [
+        "Visual Roadmaps",
+        "Convex Database",
+        "Gemini AI",
+        "Real-time Collaboration",
+        "Shareable Links",
+      ],
+      achievements: [
+        "Beautiful timeline & Kanban-style views",
+        "AI-powered roadmap generation with Gemini",
+        "Real-time sync with Convex backend",
+        "Milestone tracking with task breakdown",
+        "Embeddable roadmap widgets",
+        "Public roadmaps for transparency",
+      ],
+      demoUrl: "https://projectmapio.vercel.app/",
+      isInDevelopment: true,
+    },
     {
       title: "SocialPing 🚀",
       description:
@@ -239,8 +303,8 @@ export function ProjectsSection() {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
           >
             {projects.map((project, index) => (
               <motion.div
@@ -270,6 +334,7 @@ export function ProjectsSection() {
                       achievements={project.achievements}
                       demoUrl={project.demoUrl}
                       isCompanyProject={project.isCompanyProject}
+                      isInDevelopment={project.isInDevelopment}
                     />
                   </motion.div>
                 </FocusCard>
